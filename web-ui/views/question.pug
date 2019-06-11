@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  p Please enter article contents
+  form(method='POST' action='question')
+    p(class="label") Contents:  
+      textarea(class="contents", name="contents")
+    p(class="label") Question:  
+      input(class="question", name="question")
+
+    br
+    button(type="submit") Find the answer

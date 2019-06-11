@@ -6,3 +6,21 @@ body {
 a {
   color: #00B7FF;
 }
+
+
+textarea.contents {
+  width: 300px;
+  height: 150px;
+  padding: 5px;
+  margin: 2px;
+}
+
+input.question {
+  width: 300px;
+  padding: 5px;
+  margin: 2px;
+}
+
+p.label {
+  margin-right: 5px;
+}
