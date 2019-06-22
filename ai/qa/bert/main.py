@@ -70,7 +70,7 @@ def answer_questions(input):
   --output_dir={}
   --use_tpu=False
   --version_2_with_negative=True
-  --null_score_diff_threshold=-4.032604694366455
+  --null_score_diff_threshold=-4.005961775779724
   --predict_file={}
   """
 
