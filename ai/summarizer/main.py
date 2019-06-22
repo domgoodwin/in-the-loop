@@ -10,6 +10,7 @@ import nltk.data
 
 
 def summarize(input, num_sen = 3):
+  input = json.loads(input)
   articles = input.get("articles")
 
   bert_data_path = './files/my_bert_data/'
@@ -106,8 +107,7 @@ def summarize(input, num_sen = 3):
     summary = ''
     for sentence_lw in summary_lw.split('<q>'):
       sentence = match_sentence(sentences, sentence_lw)
-      summary += ' ' + sentence
-    output.append(summary.strip())
+      output.append(sentence.strip())
     count += 1
   return { "output" : output }
 
@@ -118,5 +118,5 @@ if __name__ == '__main__':
       "I did naat heet her! It's bullshit, I did naat heet her, I did naaat!!! Oh, hai Mark? What's new with you?"
     ]
   }
-  summaries = summarize(input)
+  summaries = summarize(json.dumps(input))
   print(str(summaries))
