@@ -6,6 +6,7 @@ import run_squad
 from argparse import Namespace
 
 def create_qa_json(input):
+  input = json.loads(input)
   question_id = 0
   title_id = 0
   formatted_data = []
@@ -114,5 +115,6 @@ if __name__ == '__main__':
       },
     ]
   }
+  input = json.dumps(input)
   answers = answer_questions(input)
   print(answers)
