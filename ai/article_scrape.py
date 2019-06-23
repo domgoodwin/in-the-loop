@@ -10,3 +10,5 @@ def get_article_content(url):
   # Remove non-ascii characters
   text = re.sub(r'[^\x00-\x7F]+',' ', text)
   return text
+
+print(get_article_content('https://www.dailymail.co.uk/news/article-7170867/Carrie-Symonds-scared-home-recorded-political-stich-neighbours.html'))
