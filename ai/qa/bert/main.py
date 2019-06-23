@@ -47,7 +47,7 @@ def create_qa_json(input):
 def answer_questions(input):
 
 
-  model_dir = '../files/models/cased_L-12_H-768_A-12/' #uncased_L-24_H-1024_A-16/'
+  model_dir = '../files/models/uncased_L-24_H-1024_A-16/' #'../files/models/cased_L-12_H-768_A-12/'
   model_name = 'out_model.ckpt-10859' # this does not include .data...
   predict_file = '../files/json/my-data.json'
   
@@ -71,7 +71,7 @@ def answer_questions(input):
   --output_dir={}
   --use_tpu=False
   --version_2_with_negative=True
-  --null_score_diff_threshold=-4.005961775779724
+  --null_score_diff_threshold={}
   --predict_file={}
   """
 
@@ -79,6 +79,7 @@ def answer_questions(input):
   bert_config_file = os.path.join(model_dir, "bert_config.json")
   init_checkpoint = os.path.join(model_dir, model_name)
   output_dir = "../files/results"
+  score_diff_threshold=-4.032604694366455 #-4.005961775779724
   predict_file = '../files/json/my-data.json'
 
   run_command = run_command.format(
@@ -86,6 +87,7 @@ def answer_questions(input):
     bert_config_file,
     init_checkpoint,
     output_dir,
+    score_diff_threshold,
     predict_file
   ).replace('\n', ' ')
 
