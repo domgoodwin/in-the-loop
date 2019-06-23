@@ -12,9 +12,7 @@ def index():
 @app.route('/summary', methods=['POST'])
 def get_summary():
   input = request.data.decode('utf-8')
-  print(input)
   json_string = json.dumps(input)
-  print(json_string)
   return jsonify(summarize(input))
 
 if __name__ == '__main__':

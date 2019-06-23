@@ -1,9 +1,37 @@
 # in-the-loop
 
 
-## nlp-engine
+## ai/summarizer
 
-`todo`
+- Put model ./ai/summarizer/files/models/cnndm_bertsum_classifier_best.py 
+- Install pip dependencies
+- Run server.js
+- Call POST localhost:5000/summary
+
+```
+python server.py
+curl -X POST localhost:5000/summary -d '{"articles" : ["articlecontent"] }'
+```
+
+### Docker
+`docker build -t d0m182/in-the-loop-summary:$VERSION .`  
+`docker run -it -p 8080:5000 -v "${PWD}/files/models/cnndm_bertsum_classifier_best.pt:/usr/src/app/files/models/cnndm_bertsum_classifier_best.pt" d0m182/in-the-loop-summary:$VERSION`
+
+## ai/qa
+
+- Put model ./ai/qa/files/models/out_model.ckpt-10859.data-00000-of-00001
+- Install pip dependencies
+- Run server.js
+- Call POST localhost:5000/qa
+
+```
+python server.py
+curl -X POST localhost:5000/qa -d 'todo'
+```
+
+### Docker
+`docker build -t d0m182/in-the-loop-qa:$VERSION .`  
+`docker run -it -v "$(PWD)/files/models/uncased_L-24_H-1024_A-16/out_model.ckpt-10859.data-00000-of-00001:/usr/src/app/files/models/uncased_L-24_H-1024_A-16/out_model.ckpt-10859.data-00000-of-00001"  d0m182/in-the-loop-qa:$VERSION`
 
 ## web-ui
 
