@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import wikipedia
 import subprocess
 import run_squad
 from argparse import Namespace
@@ -46,7 +47,7 @@ def create_qa_json(input):
 def answer_questions(input):
 
 
-  model_dir = '../files/models/uncased_L-24_H-1024_A-16/'
+  model_dir = '../files/models/cased_L-12_H-768_A-12/' #uncased_L-24_H-1024_A-16/'
   model_name = 'out_model.ckpt-10859' # this does not include .data...
   predict_file = '../files/json/my-data.json'
   
@@ -98,21 +99,18 @@ def answer_questions(input):
 
 
 if __name__ == '__main__':
+  page = wikipedia.page('History of the United Kingdom')
+
   input = {
     "data" : [
       {
         "questions" : [
-          "What is love?",
-          "What is the answer?"
+          "When was the welfare state expanded?",
+          "Who won the election in 1997?",
+          "What was the result of the Scottish referendum?"
         ],
-        "context" : "Love is the answer and the answer is love!"
-      },
-      {
-        "questions" : [
-          "What's time?"
-        ],
-        "context" : "Time is what's measured by a clock"
-      },
+        "context" : str(page.content)
+      }
     ]
   }
   input = json.dumps(input)
