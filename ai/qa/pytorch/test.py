@@ -1,12 +1,16 @@
-from pytorch_pretrained_bert import modeling
+from pytorch_pretrained_bert import modeling, BertConfig
 from run_squad import *
+import json
 
-init_checkpoint_pt = "../files/models/squad"
+init_checkpoint_pt = "../files/models/squad/pytorch_model.bin"
 bert_config = "../files/models/squad/bert_config.json"
 device = torch.device("cpu")
-#model = modeling.BertForQuestionAnswering(bert_config)
-model = BertForQuestionAnswering.from_pretrained(init_checkpoint_pt)
-model.bert.load_state_dict(torch.load(init_checkpoint_pt, map_location='cpu'))
+
+bert_config_path = "../files/models/squad/config.json"
+bert_config = BertConfig.from_json_file(bert_config_path)
+model = modeling.BertForQuestionAnswering(bert_config)
+#model = BertForQuestionAnswering.from_pretrained(init_checkpoint_pt)
+model.load_state_dict(torch.load(init_checkpoint_pt, map_location='cpu'))
 model.to(device)
 model.qa_outputs.weight.data.fill_(1.0)
 model.qa_outputs.bias.data.zero_()

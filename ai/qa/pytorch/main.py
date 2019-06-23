@@ -56,35 +56,23 @@ def answer_questions(input):
     f.write(json.dumps(qa_json))
 
   run_command = """python run_squad.py
-  --vocab_file={}
-  --bert_config_file={}
-  --init_checkpoint={}
+  --bert_model={}
   --predict_batch_size=8
-  --do_train=False
-  --train_file="./files/train/train-v2.0.json"
-  --do_predict=True
-  --train_batch_size=24
-  --learning_rate=3e-5
-  --num_train_epochs=2.0
+  --do_predict
   --max_seq_length=384
   --doc_stride=128
   --output_dir={}
-  --use_tpu=False
-  --version_2_with_negative=True
+  --version_2_with_negative
   --null_score_diff_threshold=-4.005961775779724
   --predict_file={}
   """
 
-  vocab_file = os.path.join(model_dir,"vocab.txt")
-  bert_config_file = os.path.join(model_dir, "bert_config.json")
-  init_checkpoint = os.path.join(model_dir, model_name)
+  bert_model = "../files/models/squad/pytorch_model.bin"
   output_dir = "../files/results"
   predict_file = '../files/json/my-data.json'
 
   run_command = run_command.format(
-    vocab_file,
-    bert_config_file,
-    init_checkpoint,
+    bert_model,
     output_dir,
     predict_file
   ).replace('\n', ' ')
