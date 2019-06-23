@@ -94,7 +94,7 @@ def answer_questions(input):
 
   with open('../files/results/predictions.json', 'r') as f:
     output = f.read()
-  return output
+  return json.loads(output)
 
 
 if __name__ == '__main__':
