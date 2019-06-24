@@ -15,7 +15,7 @@ spec:
         app: itl-qa
     spec:
       containers:
-      - image: $QA_IMAGE
+      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/qa:0.0.3
         name: itl-qa
       nodeSelector:
         nodetype: gpu
@@ -54,7 +54,7 @@ spec:
         app: itl-summary
     spec:
       containers:
-      - image: $SUMMARY_IMAGE
+      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/summary:0.0.5
         name: itl-summary
       nodeSelector:
         nodetype: gpu
@@ -93,7 +93,7 @@ spec:
         app: itl-web-ui
     spec:
       containers:
-      - image: $WEB_UI_IMAGE
+      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/web-ui:0.0.7
         name: itl-web-ui
         env:
         - name: SUMMARY_URL
@@ -104,6 +104,10 @@ spec:
           value: "itl-qa.default.svc.cluster.local"
         - name: QA_PORT
           value: "5000"
+        - name: DB_ADDR
+          value: "itl-postges.default.svc.cluster.local"
+        - name: DB_NAME
+          value: "ai"
       imagePullSecrets:
       - name: regcred
 ---
@@ -141,7 +145,7 @@ spec:
         app: itl-postgres
     spec:
       containers:
-      - image: $POSTGRES_IMAGE
+      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/postgres:9
         name: itl-postgres
       imagePullSecrets:
       - name: regcred
