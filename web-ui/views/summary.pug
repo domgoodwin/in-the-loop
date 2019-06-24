@@ -1,9 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Enter an article you'd like summarised
-  form(method='POST' action='summary')
-    p(class="label") Article contents:  
-      textarea(class="contents", name="contents")
-    button(type="submit") Summarise
+  section(class='input-page header')
+    div(class='container')
+      h2(class='title')= title
+      p Enter an article you'd like summarised
+      div(class='container')
+        form(method='POST' action='summary')
+          p(class="label") Article contents:  
+            textarea(class="contents", name="contents")
+          button(class='button button-primary', type="submit") Summarise

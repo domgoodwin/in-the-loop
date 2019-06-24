@@ -1,10 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Please select a functionality
-  ul
-    li
-      a(href='/nlp/summary') Summariser
-    li
-      a(href='/nlp/question') Question and Answer
+  section(class='header')
+    div(class='container')
+      h1(class='title')= title
+      h5 Please select a functionality
+      nav
+        ul
+          a(class='button button-primary', href='/nlp/summary') Summariser
+        ul
+          a(class='button button-primary', href='/nlp/question') Question and Answer
