@@ -1,0 +1,10 @@
+
+extends layout
+
+block content
+  section(class='header')    
+    div(class='container')
+      each question, index in questions
+        h2(class='title')= question
+        h5= answers[index]
+      

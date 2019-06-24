@@ -1,5 +1,6 @@
 import os
 import json
+import re
 import shutil
 import argparse
 from argparse import Namespace
@@ -10,6 +11,7 @@ import nltk.data
 
 
 def summarize(input, num_sen = 3):
+  print(input)
   input = json.loads(input)
   articles = input.get("articles")
 
@@ -94,7 +96,7 @@ def summarize(input, num_sen = 3):
   def match_sentence(sentences, sentence_lw):
     out_summary = ''
     for sentence in sentences:
-      if sentence.lower().replace(" ", "") == sentence_lw.lower().replace(" ", ""):
+      if re.sub(r'\s','', sentence.lower()) == re.sub(r'\s','', sentence_lw.lower()):
         return sentence
 
   # Format the output (at this stage all summaries are in lower case - lw)

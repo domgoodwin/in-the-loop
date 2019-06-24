@@ -9,4 +9,6 @@ block content
         form(method='POST' action='summary')
           p(class="label") Article contents:  
             textarea(class="contents", name="contents")
+          p(class="label") URL (leave blank if using contents):  
+            input(class="question", name="url")
           button(class='button button-primary', type="submit") Summarise

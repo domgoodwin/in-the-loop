@@ -11,6 +11,7 @@ torch = "==1.1.0"
 tensorboardx = "*"
 wikipedia = "*"
 flask = "*"
+goose3 = "*"
 
 [requires]
 python_version = "3.5"

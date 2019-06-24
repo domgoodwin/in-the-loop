@@ -1,0 +1,1 @@
+CREATE TABLE summaries (id serial, title varchar, content varchar, summary varchar, date_added date, link varchar)

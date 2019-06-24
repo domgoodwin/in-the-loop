@@ -5,6 +5,7 @@ import wikipedia
 import subprocess
 import run_squad
 from argparse import Namespace
+from article_scrape import get_article_content
 
 def create_qa_json(input):
   input = json.loads(input)
@@ -13,7 +14,14 @@ def create_qa_json(input):
   formatted_data = []
   for qa_pair in input.get('data'):
     questions = qa_pair.get('questions')
-    context = qa_pair.get('context')
+    if 'url' in qa_pair:
+      url = qa_pair.get('url').strip()
+      if url:
+        context = get_article_content(url)
+      else:
+        context = qa_pair.get('context')
+    else:
+      context = qa_pair.get('context')
     # Remove non-ascii chars and newlines from context
     context = re.sub(r'[^\x00-\x7F]+',' ', context).replace('\n', " ")
     qas = []
@@ -65,6 +73,7 @@ def answer_questions(input):
   args.predict_file=predict_file
   args.overwrite_output_dir=True
   args.do_lower_case=True
+  args.n_best_size=3
 
 # Arguments with default values
   args.train_file = None
@@ -74,7 +83,6 @@ def answer_questions(input):
   args.learning_rate=5e-5
   args.num_train_epochs=3.0
   args.warmup_proportion=0.1
-  args.n_best_size=20
   args.max_answer_length=30
   args.verbose_logging=False
   args.no_cuda=False
@@ -88,10 +96,10 @@ def answer_questions(input):
 
   run_squad.main(args)
 
-  with open('../files/results/predictions.json', 'r') as f:
+  with open('../files/results/nbest_predictions.json', 'r') as f:
     output = f.read()
-  return json.loads(output)
 
+  return json.loads(output)
 
 if __name__ == '__main__':
   page = wikipedia.page('History of the United Kingdom')
@@ -100,10 +108,9 @@ if __name__ == '__main__':
     "data" : [
       {
         "questions" : [
-          "When was the welfare state expanded?",
-          "Who won the election in 1997?",
-          "What was the result of the Scottish referendum?"
+          "What sactions are in place?"
         ],
+        "url" : "https://www.bbc.co.uk/news/world-us-canada-48748544",
         "context" : str(page.content)
       }
     ]

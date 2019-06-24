@@ -1,0 +1,75 @@
+Summarizer:
+  Input:
+    {
+      "articles" : [
+        "Hello, I'm an article",
+        {"url" : "https://news.com"},
+        "Another article"
+      ]
+    }
+  Output:
+    {
+      "output": [
+        {
+          "link": "link",
+          "summary": "summary",
+          "text": "articlecontent",
+          "title": "title"
+        },
+        {
+          "link": "link2",
+          "summary": "summary2",
+          "text": "articlecontent2",
+          "title": "title2"
+        }
+      ]
+    }
+
+QA:
+  Input:
+    {
+      "data" : [
+        {
+          "questions" : [
+            "What sactions are in place?"
+          ],
+          "url" : "https://www.bbc.co.uk/news/world-us-canada-48748544"
+        },
+        {
+          "questions" : [
+            "Q2"
+          ],
+          "context" : "Stuff"
+        },
+      ]
+    }
+  Output:
+    {
+      {
+        "Question1": [
+          {
+            "text": "Answer1",
+            "probability": 0.9858198885288538,
+            "start_logit": 8.477007865905762,
+            "end_logit": 10.256983757019043
+          },
+          {
+            "text": "Answer2",
+            "probability": 0.006231988773129463,
+            "start_logit": 3.4132297039031982,
+            "end_logit": 10.256983757019043
+          }
+        ]
+      },
+      {
+        "Question2": [
+          {
+            "text": "Answer1",
+            "probability": 0.9858198885288538,
+            "start_logit": 8.477007865905762,
+            "end_logit": 10.256983757019043
+          },
+          ...
+        ]
+      }
+    }
