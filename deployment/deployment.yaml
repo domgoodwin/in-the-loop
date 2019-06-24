@@ -17,6 +17,11 @@ spec:
       containers:
       - image: $QA_IMAGE
         name: itl-qa
+        env:
+        - name: LC_ALL
+          value: "C.UTF-8"
+        - name: LANG
+          value: "C.UTF-8"
       nodeSelector:
         nodetype: gpu
       imagePullSecrets:
@@ -117,8 +122,8 @@ spec:
   selector:
     app: itl-web-ui
   ports:
-  - name: 32345-5000
-    port: 32345
+  - name: 80-5000
+    port: 80
     protocol: TCP
     targetPort: 3000
   type: LoadBalancer
