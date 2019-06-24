@@ -37,8 +37,8 @@ router.post('/question', function(req, res, next) {
   content = content.replace(/\r/g, " ")
   content = content.replace(/\'/g, "")
   content = content.replace(/\"/g, "")
-  const URL = process.env.SUMMARY_URL || "localhost"
-  const PORT = process.env.SUMMARY_PORT || "30000"
+  const URL = process.env.QA_URL || "localhost"
+  const PORT = process.env.QA_PORT || "30000"
   data = { articles:[content] }
   console.log(data)
   request('http://'+URL+':'+PORT+'/qa',{method: "POST", json: true, body: data}, (err, response, body) => {

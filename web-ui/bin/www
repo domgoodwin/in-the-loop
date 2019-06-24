@@ -83,8 +83,13 @@ function onError(error) {
 
 function onListening() {
   var addr = server.address();
+  var QURL = process.env.QA_URL || "localhost"
+  var QPORT = process.env.QA_PORT || "30000"
+  var SURL = process.env.SUMMARY_URL || "localhost"
+  var SPORT = process.env.SUMMARY_PORT || "30000"
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+  console.log("ENV VARIABLES: \nSummary:"+SURL+":"+SPORT+" \nQA:"+QURL+":"+QPORT)
 }
