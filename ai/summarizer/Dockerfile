@@ -14,6 +14,4 @@ COPY . .
 
 RUN python main.py
 
-RUN rm ./files/models/cnndm_bertsum_classifier_best.pt
-
 CMD [ "python", "./server.py" ]

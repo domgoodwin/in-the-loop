@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  h1= title
+  p Summary History
+  table
+    thead
+      tr
+        th="ID"
+        th="Title"
+        th="Summary"
+        th="Link"
+    tbody
+      each summary in summaries
+        tr
+          td=summary.id
+          td=summary.title
+          td=summary.summary
+          td
+            a(href=summary.link) Link
+
