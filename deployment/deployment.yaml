@@ -22,6 +22,9 @@ spec:
           value: "C.UTF-8"
         - name: LANG
           value: "C.UTF-8"
+        resources:
+          limits:
+           nvidia.com/gpu: 1
       nodeSelector:
         nodetype: gpu
       imagePullSecrets:
@@ -122,8 +125,28 @@ spec:
   selector:
     app: itl-web-ui
   ports:
-  - name: 80-5000
+  - name: 80-3000
     port: 80
     protocol: TCP
     targetPort: 3000
-  type: LoadBalancer
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: intheloop
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+  - hosts:
+    - intheloop.${DOMAIN}
+    secretName: intheloop-tls
+  rules:
+  - host: intheloop.${DOMAIN}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: itl-web-ui
+          servicePort: 3000
