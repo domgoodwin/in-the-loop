@@ -12,4 +12,5 @@ def get_article_content(url):
   text = re.sub(r'[^\x00-\x7F]+',' ', text)
   return title, text
 
-print(get_article_content('https://www.dailymail.co.uk/news/article-7170867/Carrie-Symonds-scared-home-recorded-political-stich-neighbours.html'))
+if __name__ == '__main__':
+  print(get_article_content('https://www.dailymail.co.uk/news/article-7170867/Carrie-Symonds-scared-home-recorded-political-stich-neighbours.html'))
