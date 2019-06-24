@@ -1,13 +1,14 @@
 extends layout
 
 block content
-  h1= title
-  p Please enter article contents
-  form(method='POST' action='question')
-    p(class="label") Contents:  
-      textarea(class="contents", name="contents")
-    p(class="label") Question:  
-      input(class="question", name="question")
-
-    br
-    button(type="submit") Find the answer
+  section(class='header input-page')
+    h2(class='title')= title
+    p Please enter article contents
+    div(class='container')
+      form(method='POST' action='question')
+        p(class="label") Contents:  
+          textarea(class="contents", name="contents")
+        p(class="label") Question:  
+          input(class="question", name="question")
+        br
+        button(class='button button-primary', type="submit") Find the answer

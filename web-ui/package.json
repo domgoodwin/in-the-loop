@@ -17,6 +17,7 @@
     "request": "^2.88.0"
   },
   "devDependencies": {
+    "csstyle": "^2.0.2",
     "nodemon": "^1.19.1"
   }
 }

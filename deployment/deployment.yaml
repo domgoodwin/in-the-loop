@@ -1,0 +1,124 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: itl-qa
+  name: itl-qa
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: itl-qa
+  template:
+    metadata:
+      labels:
+        app: itl-qa
+    spec:
+      containers:
+      - image: $QA_IMAGE
+        name: itl-qa
+      nodeSelector:
+        nodetype: gpu
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: itl-qa
+  name: itl-qa
+spec:
+  selector:
+    app: itl-qa
+  ports:
+  - name: 5000-5000
+    port: 5000
+    protocol: TCP
+    targetPort: 5000
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: itl-summary
+  name: itl-summary
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: itl-summary
+  template:
+    metadata:
+      labels:
+        app: itl-summary
+    spec:
+      containers:
+      - image: $SUMMARY_IMAGE
+        name: itl-summary
+      nodeSelector:
+        nodetype: gpu
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: itl-summary
+  name: itl-summary
+spec:
+  selector:
+    app: itl-summary
+  ports:
+  - name: 5000-5000
+    port: 5000
+    protocol: TCP
+    targetPort: 5000
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: itl-web-ui
+  name: itl-web-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: itl-web-ui
+  template:
+    metadata:
+      labels:
+        app: itl-web-ui
+    spec:
+      containers:
+      - image: $WEB_UI_IMAGE
+        name: itl-web-ui
+        env:
+        - name: SUMMARY_URL
+          value: "itl-summary.default.svc.cluster.local"
+        - name: SUMMARY_PORT
+          value: "5000"
+        - name: QA_URL
+          value: "itl-qa.default.svc.cluster.local"
+        - name: QA_PORT
+          value: "5000"
+      imagePullSecrets:
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: itl-web-ui
+  name: itl-web-ui
+spec:
+  selector:
+    app: itl-web-ui
+  ports:
+  - name: 32345-5000
+    port: 32345
+    protocol: TCP
+    targetPort: 3000
+  type: LoadBalancer
