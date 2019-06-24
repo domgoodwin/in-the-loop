@@ -26,12 +26,12 @@ curl -X POST localhost:5000/summary -d '{"articles" : ["articlecontent"] }'
 
 ```
 python server.py
-curl -X POST localhost:5000/qa -d 'todo'
+curl -X POST localhost:80/qa -d '{"data": [{"questions": ["Who won the election in 1997?"],"context": "Tony Blair was elected in 1997"}]}' -H "Content-Type: application/json"
 ```
 
 ### Docker
 `docker build -t d0m182/in-the-loop-qa:$VERSION .`  
-`docker run -it -v "$(PWD)/files/models/uncased_L-24_H-1024_A-16/out_model.ckpt-10859.data-00000-of-00001:/usr/src/app/files/models/uncased_L-24_H-1024_A-16/out_model.ckpt-10859.data-00000-of-00001"  d0m182/in-the-loop-qa:$VERSION`
+`docker run -p 1234:5000 -it d0m182/in-the-loop-qa:$VERSION`
 
 ## web-ui
 

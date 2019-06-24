@@ -1,0 +1,8 @@
+ https://stackoverflow.com/questions/51882170/connect-to-google-collab-with-ssh-from-console-from-pc
+https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-18-04
+
+Root password: P8CNSWcrDxkcRTT3H4ly
+tcp://0.tcp.ngrok.io:16401
+
+Root password: cYsR7B3zYPXFLyCcrjtO
+tcp://0.tcp.ngrok.io:12770
