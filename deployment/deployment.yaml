@@ -129,3 +129,24 @@ spec:
     port: 80
     protocol: TCP
     targetPort: 3000
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: intheloop
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  tls:
+  - hosts:
+    - intheloop.${DOMAIN}
+    secretName: intheloop-tls
+  rules:
+  - host: intheloop.${DOMAIN}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: itl-web-ui
+          servicePort: 3000
