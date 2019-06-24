@@ -16,10 +16,12 @@ spec:
     spec:
       containers:
       - name: itl-summary
-        image: d0m182/in-the-loop-summary:0.0.5
+        image: d0m182/in-the-loop-qa:0.0.3
         ports:
         - containerPort: 5000
           protocol: TCP
+
+
 ---
 kind: Service
 apiVersion: v1
