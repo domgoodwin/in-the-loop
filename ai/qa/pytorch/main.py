@@ -61,7 +61,7 @@ def answer_questions(input):
   args.doc_stride=128
   args.output_dir=output_dir
   args.version_2_with_negative = True
-  args.null_score_diff_threshold=-4.032604694366455
+  args.null_score_diff_threshold=-3.3908887952566147
   args.predict_file=predict_file
   args.overwrite_output_dir=True
   args.do_lower_case=True
