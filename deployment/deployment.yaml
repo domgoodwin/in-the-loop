@@ -22,6 +22,9 @@ spec:
           value: "C.UTF-8"
         - name: LANG
           value: "C.UTF-8"
+        resources:
+          limits:
+           nvidia.com/gpu: 1
       nodeSelector:
         nodetype: gpu
       imagePullSecrets:
@@ -122,8 +125,7 @@ spec:
   selector:
     app: itl-web-ui
   ports:
-  - name: 80-5000
+  - name: 80-3000
     port: 80
     protocol: TCP
     targetPort: 3000
-  type: LoadBalancer
