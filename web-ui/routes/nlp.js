@@ -22,7 +22,7 @@ router.post('/summary', function(req, res, next) {
     console.log(response);
     // res.send(`Creating summary for: ${content}`);
     res.render('summaryresponse', {summary: body.output})
-    db.postSummary("todo", content, body.output, "todo")
+    // db.postSummary("todo", content, body.output, "todo")
   });
   // res.send(`Creating summary for: ${req.body.contents}`);
 });
@@ -47,7 +47,7 @@ router.post('/question', function(req, res, next) {
     console.log(response);
     // res.send(`Creating summary for: ${content}`);
     res.render('summaryresponse', {summary: body.output})
-    db.postSummary("todo", content, body.output, "todo")
+    // db.postSummary("todo", content, body.output, "todo")
   });
   // res.send(`Creating summary for: ${req.body.contents}`);
 });
