@@ -45,41 +45,48 @@ def create_qa_json(input):
   return json_data
 
 def answer_questions(input):
-
-
-  model_dir = '../files/models/cased_L-12_H-768_A-12/' #uncased_L-24_H-1024_A-16/'
-  model_name = 'out_model.ckpt-10859' # this does not include .data...
+  bert_model = "../files/models/squad/"
+  output_dir = "../files/results"
   predict_file = '../files/json/my-data.json'
   
   qa_json = create_qa_json(input)
   with open(predict_file, 'w+') as f:
     f.write(json.dumps(qa_json))
 
-  run_command = """python run_squad.py
-  --bert_model={}
-  --predict_batch_size=8
-  --do_predict
-  --max_seq_length=384
-  --doc_stride=128
-  --output_dir={}
-  --version_2_with_negative
-  --null_score_diff_threshold=-4.005961775779724
-  --predict_file={}
-  """
+  args = Namespace()
+  args.bert_model = bert_model
+  args.predict_batch_size=8
+  args.do_predict=True
+  args.max_seq_length=384
+  args.doc_stride=128
+  args.output_dir=output_dir
+  args.version_2_with_negative = True
+  args.null_score_diff_threshold=-4.032604694366455
+  args.predict_file=predict_file
+  args.overwrite_output_dir=True
+  args.do_lower_case=True
 
-  bert_model = "../files/models/squad/pytorch_model.bin"
-  output_dir = "../files/results"
-  predict_file = '../files/json/my-data.json'
+# Arguments with default values
+  args.train_file = None
+  args.max_query_length=64
+  args.do_train=False
+  args.train_batch_size=32
+  args.learning_rate=5e-5
+  args.num_train_epochs=3.0
+  args.warmup_proportion=0.1
+  args.n_best_size=20
+  args.max_answer_length=30
+  args.verbose_logging=False
+  args.no_cuda=False
+  args.seed=42
+  args.gradient_accumulation_steps=1
+  args.local_rank=-1
+  args.fp16=False
+  args.loss_scale=0
+  args.server_ip=''
+  args.server_port=''
 
-  run_command = run_command.format(
-    bert_model,
-    output_dir,
-    predict_file
-  ).replace('\n', ' ')
-
-  print(run_command)
-  #os.system(run_command)
-  subprocess.call(run_command.split(' '))
+  run_squad.main(args)
 
   with open('../files/results/predictions.json', 'r') as f:
     output = f.read()
