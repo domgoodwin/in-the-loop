@@ -93,7 +93,7 @@ spec:
         app: itl-web-ui
     spec:
       containers:
-      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/web-ui:0.0.7
+      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/web-ui:0.0.9
         name: itl-web-ui
         env:
         - name: SUMMARY_URL
