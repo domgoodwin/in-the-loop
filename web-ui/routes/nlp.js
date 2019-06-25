@@ -50,25 +50,42 @@ router.get('/question', function(req, res, next) {
 
 router.post('/question', function(req, res, next) {
   console.log("Getting question answer")
-  var content = req.body.contents.replace(/\n/g, " ")
-  content = content.replace(/\r/g, " ")
-  content = content.replace(/\'/g, "")
-  content = content.replace(/\"/g, "")
+  data = {}
+  if (req.body.url){
+    data = {data: [{questions: [ req.body.question ], url: req.body.url}]};
+  } else {
+    var content = req.body.contents.replace(/\n/g, " ")
+    content = content.replace(/\r/g, " ")
+    content = content.replace(/\'/g, "")
+    content = content.replace(/\"/g, "")
+    data = { data: [{questions: [ req.body.question ], context: content}]};
+  }
+  console.log("Sending data to qa server")
+  console.log(data)
   const URL = process.env.QA_URL || "localhost"
   const PORT = process.env.QA_PORT || "30000"
-  data = { data:[{context: content, questions: [ req.body.question ] }] }
+  // data = { questions: [ req.body.question ], data:[{context: content, questions: [ req.body.question ] }] }
   // console.log(data)
   request('http://'+URL+':'+PORT+'/qa',{method: "POST", json: true, body: data}, (err, response, body) => {
     if (err) { return console.log(err); }
-    // console.log(body);
+    console.log(body);
     // console.log(response);
     // // res.send(`Creating summary for: ${content}`);\
     questions = []
     answers = []
     for(var key in body) {
       questions.push(key)
-      answers.push(body[key]);
+      ans = ""
+      if(body[key][0]) {
+        ans = body[key][0]
+      }
+      else{ 
+        ans = "/Not Found/"
+      }
+      answers.push(ans);
     }
+    console.log(questions)
+    console.log(answers)
     res.render('questionresponse', {questions: questions, answers: answers})
   });
   // res.send(`Creating summary for: ${req.body.contents}`);

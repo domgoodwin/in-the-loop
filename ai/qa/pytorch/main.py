@@ -12,19 +12,26 @@ def create_qa_json(input):
   question_id = 0
   title_id = 0
   formatted_data = []
+  context = ""
   for qa_pair in input.get('data'):
+    print("Qa pair")
+    print(qa_pair)
     questions = qa_pair.get('questions')
     if 'url' in qa_pair:
       url = qa_pair.get('url').strip()
       if url:
-        context = get_article_content(url)
+        title, context = get_article_content(url)
       else:
         context = qa_pair.get('context')
     else:
       context = qa_pair.get('context')
     # Remove non-ascii chars and newlines from context
+    print("Parsing context:")
+    print(context)
     context = re.sub(r'[^\x00-\x7F]+',' ', context).replace('\n', " ")
     qas = []
+    print("Questions:")
+    print(questions)
     for question in questions:
       question_json = {
         "question" : question,

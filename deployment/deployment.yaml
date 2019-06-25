@@ -15,7 +15,7 @@ spec:
         app: itl-qa
     spec:
       containers:
-      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/qa:0.0.3
+      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/qa:0.0.4
         name: itl-qa
         env:
         - name: LC_ALL
@@ -101,7 +101,7 @@ spec:
         app: itl-web-ui
     spec:
       containers:
-      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/web-ui:0.1.0
+      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/web-ui:0.1.1
         name: itl-web-ui
         env:
         - name: SUMMARY_URL

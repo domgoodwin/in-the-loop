@@ -3,6 +3,8 @@ from goose3 import Goose
 from requests import get
 
 def get_article_content(url):
+  print("Getting article from URL:")
+  print(url)
   response = get(url)
   extractor = Goose()
   article = extractor.extract(raw_html=response.content)
