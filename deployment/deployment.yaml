@@ -62,7 +62,7 @@ spec:
         app: itl-summary
     spec:
       containers:
-      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/summary:0.0.5
+      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/summary:0.0.6
         name: itl-summary
       nodeSelector:
         nodetype: gpu
@@ -101,7 +101,7 @@ spec:
         app: itl-web-ui
     spec:
       containers:
-      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/web-ui:0.0.9
+      - image: bf-dtr.aws.capgemini-ips.com/docker-datacenter/web-ui:0.1.0
         name: itl-web-ui
         env:
         - name: SUMMARY_URL

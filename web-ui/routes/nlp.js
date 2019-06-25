@@ -29,10 +29,10 @@ router.post('/summary', function(req, res, next) {
     // console.log(body);
     console.log(body);
     // res.send(`Creating summary for: ${content}`);
-    res.render('summaryresponse', {summary: body.output})
+    res.render('summaryresponse', {summary: body.output[0].summary})
     url = req.body.url || "N/A"
-    title = "todo"
-    db.postSummary(title, content.replace(/[^a-zA-Z ]/g, ""), body.output, url)
+    title = body.output[0].title || "N/A"
+    db.postSummary(title, body.output[0].text.replace(/[^a-zA-Z ]/g, ""), body.output[0].summary, url)
     .then(function (data) {
       console.log(data)
     })
