@@ -6,5 +6,8 @@ block content
     div(class='container')
       each question, index in questions
         h2(class='title')= question
-        h5= answers[index].text
-      
+        if answers[index].text == "empty" || answers[index].text == ""
+          h5= "//No Answer//"
+        else
+          h5= answers[index].text
+          p= Math.round(answers[index].probability*100)+"%"
