@@ -5,10 +5,15 @@ import shutil
 import argparse
 from argparse import Namespace
 from prepro import data_builder
-import train
+from train import test
 import sentence_splitter
 import nltk.data
 
+def match_sentence(sentences, sentence_lw):
+  out_summary = ''
+  for sentence in sentences:
+    if re.sub(r'\s','', sentence.lower()) == re.sub(r'\s','', sentence_lw.lower()):
+      return sentence
 
 def summarize(input, num_sen = 3):
   print(input)
@@ -19,7 +24,7 @@ def summarize(input, num_sen = 3):
   log_file = './files/logs/output.log'
   model_path = './files/models/cnndm_bertsum_classifier_best.pt'
   results_path = './files/results/'
-  json_path = './files/json/'
+  json_path = './files/json'
 
   bert_data, all_sentences = sentence_splitter.get_articles_json(articles)
 
@@ -51,7 +56,7 @@ def summarize(input, num_sen = 3):
   args.encoder = 'classifier'
   args.mode = 'test'
   args.bert_data_path = './files/bert.pt/'
-  args.model_path = './models/'
+  args.model_path = './files/models/'
   args.result_path = results_path
   args.temp_dir = './temp'
   args.batch_size = 1000
@@ -89,15 +94,19 @@ def summarize(input, num_sen = 3):
   args.report_rouge = True
   args.block_trigram = True
   args.num_sen = num_sen
+
   args.gpu_ranks = [int(i) for i in args.gpu_ranks.split(',')]
   os.environ["CUDA_VISIBLE_DEVICES"] = args.visible_gpus
 
-  train.test(args)
-  def match_sentence(sentences, sentence_lw):
-    out_summary = ''
-    for sentence in sentences:
-      if re.sub(r'\s','', sentence.lower()) == re.sub(r'\s','', sentence_lw.lower()):
-        return sentence
+  #init_logger(args.log_file)
+  device = "cpu" if args.visible_gpus == '-1' else "cuda"
+  device_id = 0 if device == "cuda" else -1
+
+  cp = args.model_name
+  #step = int(cp.split('.')[-2].split('_')[-1])
+  step = 1000000
+
+  test(args, device_id, cp, step)
 
   # Format the output (at this stage all summaries are in lower case - lw)
   with open(os.path.join(results_path,"_step1000000.candidate"), 'r') as f:
@@ -116,8 +125,7 @@ def summarize(input, num_sen = 3):
 if __name__ == '__main__':
   input = {
     "articles" : [
-      "Oh hai Claudette! What's new with you? Anyway, how's your sex life? I'd do anything for my girl!",
-      "I did naat heet her! It's bullshit, I did naat heet her, I did naaat!!! Oh, hai Mark? What's new with you?"
+      "wITH ITS mini-allotments, bicycle club and lively restaurant, the plan outlined by Tonic Living looks like the blueprint of any other retirement community. The difference is that most of the residents of Tonics proposed development would be lesbian, gay, bisexual or transgender. The organisation, founded in 2014, is hoping to find a site within a year for what would be Britains first retirement home for LGBT people. The thinking behind it is that for the million or so gay over-60s in Britain, the path towards assisted living can be especially tricky. They are likelier than other pensioners to live alone. Fewer than half have children. And almost three-quarters say they would worry about disclosing their sexuality to carers. Anna Kear, Tonics boss, says many old folk go back into the closet once they are dependent on care. Hers is not the only organisation planning homes for LGBT OAPs. Another group, London Older Lesbians Co-housing (LOLC), is also on the lookout for a site in the capital. Founded three years ago, it has about 35 women aged over 50 on its waiting list. It hopes to build a base and move in within five years. Both it and Tonic are supported by the Greater London Authority. The law allows groups with protected characteristics, including LGBT folk, to discriminate in their admissions (Tonic nonetheless accepts applications from all). The projects are partly inspired by organisations like the rainbow-adorned LebensortVielfalt in Berlin and Triangle Square in Los Angeles, which house elderly gay people. They also have a model in groups like Older Womens Co-Housing (OWCH), a development in London for women over 50 (straight and gay alike) which opened in 2016. The 26 residents wanted to preserve their independence in old age. We decided we would not be done unto, says Maria Brenton, the project manager. OWCH receives dozens of inquiries a week. Group living offers camaraderie as well as a spirit of radicalism that appeals to some activists. Were used to a combination of autonomy and collectivity as part of our lesbian feminism, says Liz Kelly, 67, who co-founded LOLC. Why would we want to conform to convention now, just because were older?. Social opportunities for older gay folk are improving in other ways, too. Opening Doors London organises walks, film nights and a befriending scheme for over-50s. Sally Knocker, who runs the charitys Rainbow Memory Caf, says people are finding innovative ways to combat isolation. As Ms Kear puts it, We have to get it across to them that its OK to be old and out and proud."
     ]
   }
   summaries = summarize(json.dumps(input))

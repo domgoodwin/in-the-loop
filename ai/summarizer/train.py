@@ -67,12 +67,12 @@ class ErrorHandler(object):
         raise Exception(msg)
 
 
-def test(args):
-
+def test(args, device_id, pt, step):
     device = "cpu" if args.visible_gpus == '-1' else "cuda"
-    device_id = 0 if device == "cuda" else -1
-
-    test_from = args.model_name
+    if (pt != ''):
+        test_from = pt
+    else:
+        test_from = args.test_from
     logger.info('Loading checkpoint from %s' % test_from)
     checkpoint = torch.load(test_from, map_location=lambda storage, loc: storage)
     opt = vars(checkpoint['opt'])
@@ -88,7 +88,7 @@ def test(args):
                                   args.batch_size, device,
                                   shuffle=False, is_test=True)
     trainer = build_trainer(args, device_id, model, None)
-    trainer.test(test_iter,1000000, args.num_sen)
+    trainer.test(test_iter,step)
 
 
 if __name__ == '__main__':
@@ -147,4 +147,11 @@ if __name__ == '__main__':
     args.gpu_ranks = [int(i) for i in args.gpu_ranks.split(',')]
     os.environ["CUDA_VISIBLE_DEVICES"] = args.visible_gpus
 
-    test(args)
+    init_logger(args.log_file)
+    device = "cpu" if args.visible_gpus == '-1' else "cuda"
+    device_id = 0 if device == "cuda" else -1
+
+    cp = args.model_name
+    #step = int(cp.split('.')[-2].split('_')[-1])
+    step = 1000000
+    test(args, device_id, cp, step)

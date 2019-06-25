@@ -9,6 +9,8 @@ def get_articles_json(articles):
     for article in articles:
         # Remove non-ascii chars
         article_cont = re.sub(r'[^\x00-\x7F]+',' ', article)
+        article_cont = re.sub('(?=[^\.])\n\s*(?=\S)', r'. ', article_cont, flags = re.M)
+        article_cont = re.sub('([^\.])\.\. ', r'\1. ', article_cont, flags = re.M)
         # Split the sentences
         sentences = sent_tokenize(article_cont)
         # Split the sentences to words

@@ -204,7 +204,7 @@ class Trainer(object):
             self._report_step(0, step, valid_stats=stats)
             return stats
 
-    def test(self, test_iter, step, num_sen, cal_lead=False, cal_oracle=False):
+    def test(self, test_iter, step, cal_lead=False, cal_oracle=False):
         """ Validate model.
             valid_iter: validate data iterator
         Returns:
@@ -220,9 +220,9 @@ class Trainer(object):
             return ngram_set
 
         def _block_tri(c, p):
-            tri_c = _get_ngrams(num_sen, c.split())
+            tri_c = _get_ngrams(3, c.split())
             for s in p:
-                tri_s = _get_ngrams(num_sen, s.split())
+                tri_s = _get_ngrams(3, s.split())
                 if len(tri_c.intersection(tri_s))>0:
                     return True
             return False
@@ -262,9 +262,8 @@ class Trainer(object):
 
                             sent_scores = sent_scores + mask.float()
                             sent_scores = sent_scores.cpu().data.numpy()
-                            # Decide how to order the sentences
                             selected_ids = np.argsort(-sent_scores, 1)
-                            selected_ids = np.sort(selected_ids,1)
+                        # selected_ids = np.sort(selected_ids,1)
                         for i, idx in enumerate(selected_ids):
                             _pred = []
                             if(len(batch.src_str[i])==0):
