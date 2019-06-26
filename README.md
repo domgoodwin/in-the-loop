@@ -41,7 +41,7 @@ docker build -t d0m182/in-the-loop-qa:$VERSION .
 docker pull d0m182/in-the-loop-qa
 docker run -p 8081:5000 -it d0m182/in-the-loop-qa:$VERSION
 curl -X POST localhost:8081/qa \
-    -d '{"data": [{"questions": ["Who won the election in 1997?"],"context": "Tony Blair was elected in 1997"}]}' \
+    -d '{"data": [{"questions": ["Who won the election in 1997?"],"url": "https://bbc.co.uk/linktoarticle"}]}' \
     -H "Content-Type: application/json"
 
 ```
