@@ -14,8 +14,13 @@ curl -X POST localhost:5000/summary -d '{"articles" : ["articlecontent"] }'
 ```
 
 ### Docker
-`docker build -t d0m182/in-the-loop-summary:$VERSION .`  
-`docker run -it -p 8080:5000 -v "${PWD}/files/models/cnndm_bertsum_classifier_best.pt:/usr/src/app/files/models/cnndm_bertsum_classifier_best.pt" d0m182/in-the-loop-summary:$VERSION`
+```
+docker build -t d0m182/in-the-loop-summary:$VERSION .
+
+docker pull d0m182/in-the-loop-summary
+docker run -it -p 8080:5000 d0m182/in-the-loop-summary
+curl -X POST localhost:5000/summary -d '{"articles" : ["articlecontent"] }'
+```
 
 ## ai/qa
 
@@ -30,8 +35,16 @@ curl -X POST localhost:80/qa -d '{"data": [{"questions": ["Who won the election 
 ```
 
 ### Docker
-`docker build -t d0m182/in-the-loop-qa:$VERSION .`  
-`docker run -p 1234:5000 -it d0m182/in-the-loop-qa:$VERSION`
+```
+docker build -t d0m182/in-the-loop-qa:$VERSION .
+
+docker pull d0m182/in-the-loop-qa
+docker run -p 8081:5000 -it d0m182/in-the-loop-qa:$VERSION
+curl -X POST localhost:8081/qa \
+    -d '{"data": [{"questions": ["Who won the election in 1997?"],"context": "Tony Blair was elected in 1997"}]}' \
+    -H "Content-Type: application/json"
+
+```
 
 ## web-ui
 
