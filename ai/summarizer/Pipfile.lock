@@ -18,10 +18,10 @@
     "default": {
         "nltk": {
             "hashes": [
-                "sha256:12d7129aea0972840419499411d3aa815c6ad66336a51131e120d35a25d953b2"
+                "sha256:bed45551259aa2101381bbdd5df37d44ca2669c5c3dad72439fa459b29137d94"
             ],
             "index": "pypi",
-            "version": "==3.4.3"
+            "version": "==3.4.5"
         },
         "singledispatch": {
             "hashes": [
